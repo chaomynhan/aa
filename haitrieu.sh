@@ -55,18 +55,26 @@ install_XrayR() {
 }
 
 makeConfig() {
-    echo "---------------"
-	read -p "Nhập loại website của bạn ( V2board, SsPanel ) :" airPanel
+    echo "------ FAST4G.NET ---------"
+	read -p "Website của bạn: V2board"
 	echo "---------------"
-	read -p "Nhập link website ( ví dụ https://abc.com) :" airWebsite
+	read -p "Link website: https://fast4g.net/"
 	echo "---------------"
-	read -p "API key của web :" airAPIKey
+	read -p "API key của web: adminhoang9810a@fast4g.net"
 	echo "---------------"
-	read -p "Số node ID :" makeNodeID
+	read -p "Node ID 80:" NodeID80
+	echo -e "Node 80 là : ${NodeID80}"
 	echo "---------------"
-	read -p "Giới hạn số thiết bị, nếu không muốn giới hạn hãy nhập 0 :" makeLimitdevice
+	read -p "Nhập CertDomain port 80 :" CertDomain80
+    	echo -e "CertDomain = ${CertDomain80}"
+    	echo "---------------"
+	read -p "Node ID 443:" NodeID443
+	echo -e "Node 80 là : ${NodeID443}"
 	echo "---------------"
-	read -p "Giới hạn tốc độ, nếu không muốn giới hạn nhập 0 :" makeSpeedlimit
+    	read -p "Nhập CertDomain port 443 :" CertDomain443
+    	echo -e "CertDomain = ${CertDomain443}"
+	echo "---------------"
+	read -p "Giới hạn số thiết bị:" makeLimitdevice
 	echo "---------------"
 
 	rm -f /etc/XrayR/config.yml
@@ -77,63 +85,99 @@ makeConfig() {
 	fi
          cat <<EOF >/etc/XrayR/config.yml
 Log:
-  Level: none # Log level: none, error, warning, info, debug 
+  Level: none 
   AccessPath: # /etc/XrayR/access.Log
   ErrorPath: # /etc/XrayR/error.log
-DnsConfigPath: # /etc/XrayR/dns.json # Path to dns config, check https://xtls.github.io/config/dns.html for help
-RouteConfigPath: # /etc/XrayR/route.json # Path to route config, check https://xtls.github.io/config/routing.html for help
-InboundConfigPath: # /etc/XrayR/custom_inbound.json # Path to custom inbound config, check https://xtls.github.io/config/inbound.html for help
-OutboundConfigPath: # /etc/XrayR/custom_outbound.json # Path to custom outbound config, check https://xtls.github.io/config/outbound.html for help
+DnsConfigPath: # /etc/XrayR/dns.json
+InboundConfigPath: # /etc/XrayR/custom_inbound.json
+RouteConfigPath: # /etc/XrayR/route.json
+OutboundConfigPath: # /etc/XrayR/custom_outbound.json
 ConnetionConfig:
-  Handshake: 2 # Handshake time limit, Second
-  ConnIdle: 200 # Connection idle time limit, Second
-  UplinkOnly: 0 # Time limit when the connection downstream is closed, Second
-  DownlinkOnly: 0 # Time limit when the connection is closed after the uplink is closed, Second
-  BufferSize: 16 # The internal cache size of each connection, kB 
+  Handshake: 4 
+  ConnIdle: 30 
+  UplinkOnly: 2 
+  DownlinkOnly: 4 
+  BufferSize: 64 
 Nodes:
   -
-    PanelType: "$airPanel" # Panel type: SSpanel, V2board, PMpanel, Proxypanel
+    PanelType: "V2board" 
     ApiConfig:
-      ApiHost: "$airWebsite"
-      ApiKey: "$airAPIKey"
-      NodeID: $makeNodeID
-      NodeType: V2ray # Node type: V2ray, Trojan, Shadowsocks, Shadowsocks-Plugin
-      Timeout: 10 # Timeout for the api request
-      EnableVless: false # Enable Vless for V2ray Type
-      EnableXTLS: false # Enable XTLS for V2ray and Trojan
-      SpeedLimit: $makeSpeedlimit # Mbps, Local settings will replace remote settings, 0 means disable
-      DeviceLimit: $makeLimitdevice # Local settings will replace remote settings, 0 means disable
-      RuleListPath: # /etc/XrayR/rulelist Path to local rulelist file
+      ApiHost: "https://fast4g.net"
+      ApiKey: "adminhoang9810a@fast4g.net"
+      NodeID: $NodeID80
+      NodeType: V2ray 
+      Timeout: 30 
+      EnableVless: false 
+      EnableXTLS: false 
+      SpeedLimit: 0 
+      DeviceLimit: $makeLimitdevice 
+      RuleListPath: # /etc/XrayR/rulelist
     ControllerConfig:
-      ListenIP: 0.0.0.0 # IP address you want to listen
-      SendIP: 0.0.0.0 # IP address you want to send pacakage
-      UpdatePeriodic: 60 # Time to update the nodeinfo, how many sec.
-      EnableDNS: false # Use custom DNS config, Please ensure that you set the dns.json well
-      DNSType: AsIs # AsIs, UseIP, UseIPv4, UseIPv6, DNS strategy
-      DisableUploadTraffic: false # Disable Upload Traffic to the panel
-      DisableGetRule: false # Disable Get Rule from the panel
-      DisableIVCheck: false # Disable the anti-reply protection for Shadowsocks
-      DisableSniffing: true # Disable domain sniffing 
-      EnableProxyProtocol: false # Only works for WebSocket and TCP
-      EnableFallback: false # Only support for Trojan and Vless
-      FallBackConfigs:  # Support multiple fallbacks
+      DisableSniffing: True
+      ListenIP: 0.0.0.0 
+      SendIP: 0.0.0.0 
+      UpdatePeriodic: 60 
+      EnableDNS: false 
+      DNSType: AsIs 
+      EnableProxyProtocol: false 
+      EnableFallback: false 
+      FallBackConfigs:  
         -
-          SNI: # TLS SNI(Server Name Indication), Empty for any
-          Path: # HTTP PATH, Empty for any
-          Dest: 80 # Required, Destination of fallback, check https://xtls.github.io/config/fallback/ for details.
-          ProxyProtocolVer: 0 # Send PROXY protocol version, 0 for dsable
+          SNI: 
+          Path: 
+          Dest: 80 
+          ProxyProtocolVer: 0 
       CertConfig:
-        CertMode: dns # Option about how to get certificate: none, file, http, dns. Choose "none" will forcedly disable the tls config.
-        CertDomain: "node1.test.com" # Domain to cert
-        CertFile: /etc/XrayR/cert/node1.test.com.cert  # Provided if the CertMode is file
-        KeyFile: /etc/XrayR/cert/node1.test.com.key
-        Provider: alidns # DNS cert provider, Get the full support list here: https://go-acme.github.io/lego/dns/
+        CertMode: http
+        CertDomain: "$CertDomain80" 
+        CertFile: /etc/XrayR/cert-net/fast4g.crt
+        KeyFile: /etc/XrayR/cert-net/fast4g.key
+        Provider: alidns 
         Email: test@me.com
-        DNSEnv: # DNS ENV option used by DNS provider
+        DNSEnv: 
           ALICLOUD_ACCESS_KEY: aaa
           ALICLOUD_SECRET_KEY: bbb
+  -
+    PanelType: "V2board" 
+    ApiConfig:
+      ApiHost: "https://fast4g.net"
+      ApiKey: "adminhoang9810a@fast4g.net"
+      NodeID: $NodeID443
+      NodeType: V2ray 
+      Timeout: 30 
+      EnableVless: false 
+      EnableXTLS: false 
+      SpeedLimit: 0 
+      DeviceLimit: $makeLimitdevice 
+      RuleListPath: # /etc/XrayR/rulelist
+    ControllerConfig:
+      DisableSniffing: True
+      ListenIP: 0.0.0.0 
+      SendIP: 0.0.0.0 
+      UpdatePeriodic: 60 
+      EnableDNS: false 
+      DNSType: AsIs 
+      EnableProxyProtocol: false 
+      EnableFallback: false 
+      FallBackConfigs:  
+        -
+          SNI: 
+          Path: 
+          Dest: 80 
+          ProxyProtocolVer: 0 
+      CertConfig:
+        CertMode: file 
+        CertDomain: "$CertDomain443"
+        CertFile: /etc/XrayR/cert-net/fast4g.crt 
+        KeyFile: /etc/XrayR/cert-net/fast4g.key
+        Provider: cloudflare 
+        Email: test@me.com
+        DNSEnv: 
+          CLOUDFLARE_EMAIL: 
+          CLOUDFLARE_API_KEY: 
+
 EOF
-	xrayr restart
+	XrayR restart
 	green "xong rồi , reboot nếu k thành công！"
 	exit 1
 }
