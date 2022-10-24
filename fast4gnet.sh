@@ -55,8 +55,8 @@ install_XrayR() {
 }
 
 makeConfig() {
-    echo "------ FAST4G.NET ---------"
-	read -p "Website của bạn: V2board"
+    echo "------  FAST4G.NET ---------"
+	read -p "Loại website của bạn: V2board"
 	echo "---------------"
 	read -p "Link website: https://fast4g.net/"
 	echo "---------------"
@@ -66,15 +66,13 @@ makeConfig() {
 	echo -e "Node 80 là: ${NodeID80}"
 	echo "---------------"
 	read -p "Nhập CertDomain port 80: " CertDomain80
-    	echo -e "CertDomain = ${CertDomain80}"
+    	echo -e "CertDomain là: ${CertDomain80}"
     	echo "---------------"
 	read -p "Node ID 443: " NodeID443
 	echo -e "Node 80 là: ${NodeID443}"
 	echo "---------------"
     	read -p "Nhập CertDomain port 443: " CertDomain443
-    	echo -e "CertDomain = ${CertDomain443}"
-	echo "---------------"
-	read -p "Giới hạn số thiết bị: " makeLimitdevice
+    	echo -e "CertDomain là: ${CertDomain443}"
 	echo "---------------"
 
 	rm -f /etc/XrayR/config.yml
@@ -110,7 +108,7 @@ Nodes:
       EnableVless: false 
       EnableXTLS: false 
       SpeedLimit: 0 
-      DeviceLimit: $makeLimitdevice 
+      DeviceLimit: 3 
       RuleListPath: # /etc/XrayR/rulelist
     ControllerConfig:
       DisableSniffing: True
@@ -148,7 +146,7 @@ Nodes:
       EnableVless: false 
       EnableXTLS: false 
       SpeedLimit: 0 
-      DeviceLimit: $makeLimitdevice 
+      DeviceLimit: 3 
       RuleListPath: # /etc/XrayR/rulelist
     ControllerConfig:
       DisableSniffing: True
