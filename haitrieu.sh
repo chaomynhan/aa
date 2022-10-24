@@ -62,19 +62,19 @@ makeConfig() {
 	echo "---------------"
 	read -p "API key của web: adminhoang9810a@fast4g.net"
 	echo "---------------"
-	read -p "Node ID 80:" NodeID80
-	echo -e "Node 80 là : ${NodeID80}"
+	read -p "Node ID 80: " NodeID80
+	echo -e "Node 80 là: ${NodeID80}"
 	echo "---------------"
-	read -p "Nhập CertDomain port 80 :" CertDomain80
+	read -p "Nhập CertDomain port 80: " CertDomain80
     	echo -e "CertDomain = ${CertDomain80}"
     	echo "---------------"
-	read -p "Node ID 443:" NodeID443
-	echo -e "Node 80 là : ${NodeID443}"
+	read -p "Node ID 443: " NodeID443
+	echo -e "Node 80 là: ${NodeID443}"
 	echo "---------------"
-    	read -p "Nhập CertDomain port 443 :" CertDomain443
+    	read -p "Nhập CertDomain port 443: " CertDomain443
     	echo -e "CertDomain = ${CertDomain443}"
 	echo "---------------"
-	read -p "Giới hạn số thiết bị:" makeLimitdevice
+	read -p "Giới hạn số thiết bị: " makeLimitdevice
 	echo "---------------"
 
 	rm -f /etc/XrayR/config.yml
@@ -177,8 +177,10 @@ Nodes:
           CLOUDFLARE_API_KEY: 
 
 EOF
+	cd /etc/XrayR
+	git clone https://github.com/chaomynhan/cert-net.git
 	XrayR restart
-	green "xong rồi , reboot nếu k thành công！"
+	green "Đã xong, reboot nếu k thành công！"
 	exit 1
 }
 
