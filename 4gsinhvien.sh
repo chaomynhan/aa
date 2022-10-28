@@ -60,7 +60,7 @@ makeConfig() {
 	echo "---------------"
 	read -p "Link website: https://4gsinhvien.me/"
 	echo "---------------"
-	read -p "API key của web: duongdinhtai2004"
+	read -p "API key của web: danghoangadmin@4gsinhvien.me"
 	echo "---------------"
 	read -p "Node ID 80: " NodeID80
 	echo -e "Node 80 là: ${NodeID80}"
@@ -104,7 +104,7 @@ Nodes:
     PanelType: "V2board" 
     ApiConfig:
       ApiHost: "https://4gsinhvien.me"
-      ApiKey: "duongdinhtai2004"
+      ApiKey: "danghoangadmin@4gsinhvien.me"
       NodeID: $NodeID80
       NodeType: V2ray 
       Timeout: 30 
@@ -142,7 +142,7 @@ Nodes:
     PanelType: "V2board" 
     ApiConfig:
       ApiHost: "https://4gsinhvien.me"
-      ApiKey: "duongdinhtai2004"
+      ApiKey: "danghoangadmin@4gsinhvien.me"
       NodeID: $NodeID443
       NodeType: V2ray 
       Timeout: 30 
