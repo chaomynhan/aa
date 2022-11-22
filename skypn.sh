@@ -55,7 +55,7 @@ install_XrayR() {
 }
 
 makeConfig() {
-    echo "------  SKYPN.FUN ---------"
+    echo "------ SKYPN.FUN ---------"
 	read -p "Loại website của bạn: V2board"
 	echo "---------------"
 	read -p "Link website: https://skypn.fun/"
@@ -67,6 +67,12 @@ makeConfig() {
 	echo "---------------"
 	read -p "Nhập CertDomain port 80: " CertDomain80
     	echo -e "CertDomain là: ${CertDomain80}"
+	echo "---------------"
+	read -p "Node ID 443: " NodeID443
+	echo -e "Node 80 là: ${NodeID443}"
+	echo "---------------"
+    	read -p "Nhập CertDomain port 443: " CertDomain443
+    	echo -e "CertDomain là: ${CertDomain443}"
 	echo "---------------"
 
 	rm -f /etc/XrayR/config.yml
@@ -129,6 +135,44 @@ Nodes:
         DNSEnv: 
           ALICLOUD_ACCESS_KEY: aaa
           ALICLOUD_SECRET_KEY: bbb
+  -
+    PanelType: "V2board" 
+    ApiConfig:
+      ApiHost: "https://skypn.fun"
+      ApiKey: "adminskypn9810@skypn.fun"
+      NodeID: $NodeID443
+      NodeType: V2ray 
+      Timeout: 30 
+      EnableVless: false 
+      EnableXTLS: false 
+      SpeedLimit: 0 
+      DeviceLimit: 3 
+      RuleListPath: # /etc/XrayR/rulelist
+    ControllerConfig:
+      DisableSniffing: True
+      ListenIP: 0.0.0.0 
+      SendIP: 0.0.0.0 
+      UpdatePeriodic: 60 
+      EnableDNS: false 
+      DNSType: AsIs 
+      EnableProxyProtocol: false 
+      EnableFallback: false 
+      FallBackConfigs:  
+        -
+          SNI: 
+          Path: 
+          Dest: 80 
+          ProxyProtocolVer: 0 
+      CertConfig:
+        CertMode: file 
+        CertDomain: "$CertDomain443"
+        CertFile: /etc/XrayR/cert-skypn/skypn.crt
+        KeyFile: /etc/XrayR/cert-skypn/skypn.key
+        Provider: cloudflare 
+        Email: test@me.com
+        DNSEnv: 
+          CLOUDFLARE_EMAIL: 
+          CLOUDFLARE_API_KEY:
 
 EOF
 	cd /etc/XrayR
