@@ -84,12 +84,12 @@ makeConfig() {
 	  echo -e ${sslcrt} > crt.crt
 	echo "---------------"
 
-rm -f /etc/XrayR/config.yml
+	rm -f /etc/XrayR/config.yml
 	if [[ -z $(~/.acme.sh/acme.sh -v 2>/dev/null) ]]; then
 		curl https://get.acme.sh | sh -s email=script@github.com
 		source ~/.bashrc
 		bash ~/.acme.sh/acme.sh --upgrade --auto-upgrade
-	fi 
+	fi
          cat <<EOF >/etc/XrayR/config.yml
 
 Log:
@@ -188,7 +188,6 @@ EOF
 	
 	XrayR restart
 	green "Đã xong, reboot nếu k thành công！"
-	
 	exit 1
 }
 
