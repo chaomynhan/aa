@@ -59,10 +59,10 @@ makeConfig() {
 	read -p "Loại website của bạn: V2board"
 	echo "---------------"
 	read -p "Link website: " Webname
-  echo -e "Link web là: ${Webname}"
+ 	echo -e "Link web là: ${Webname}"
 	echo "---------------"
 	read -p "API key của web: " Apikey
-  echo -e "API key là: ${Apikey}"
+  	echo -e "API key là: ${Apikey}"
 	echo "---------------"
 	read -p "Node ID 80: " NodeID80
 	echo -e "Node 80 là: ${NodeID80}"
@@ -76,19 +76,22 @@ makeConfig() {
     	read -p "Nhập CertDomain port 443: " CertDomain443
     	echo -e "CertDomain là: ${CertDomain443}"
 	echo "---------------"
-  echo -e "Nhập SSL KEY: " sslkey
-  ${sslkey}
-  echo -e "Nhập SSL CRT: " sslcrt
-  ${sslcrt}
+	cd /etc/XrayR
+	git clone https://github.com/chaomynhan/ssl.git
+	  echo -p "Nhập SSL KEY: " sslkey
+	  echo -e ${sslkey} > key.key
+	  echo -p "Nhập SSL CRT: " sslcrt
+	  echo -e ${sslcrt} > crt.crt
 	echo "---------------"
 
-	rm -f /etc/XrayR/config.yml
+rm -f /etc/XrayR/config.yml
 	if [[ -z $(~/.acme.sh/acme.sh -v 2>/dev/null) ]]; then
 		curl https://get.acme.sh | sh -s email=script@github.com
 		source ~/.bashrc
 		bash ~/.acme.sh/acme.sh --upgrade --auto-upgrade
-	fi
+	fi 
          cat <<EOF >/etc/XrayR/config.yml
+
 Log:
   Level: none 
   AccessPath: # /etc/XrayR/access.Log
@@ -181,32 +184,11 @@ Nodes:
           CLOUDFLARE_EMAIL: 
           CLOUDFLARE_API_KEY: 
 
-EOF
-
-cd /etc/XrayR
-	git clone https://github.com/chaomynhan/ssl.git
-  
-rm -f /etc/XrayR/ssl/key.key
-	if [[ -z $(~/.acme.sh/acme.sh -v 2>/dev/null) ]]; then
-		curl https://get.acme.sh | sh -s email=script@github.com
-		source ~/.bashrc
-		bash ~/.acme.sh/acme.sh --upgrade --auto-upgrade
-	fi
-         cat <<EOF >/etc/XrayR/ssl/key.key
-         $sslkey
-       EOF  
- rm -f /etc/XrayR/ssl/crt.crt
-	if [[ -z $(~/.acme.sh/acme.sh -v 2>/dev/null) ]]; then
-		curl https://get.acme.sh | sh -s email=script@github.com
-		source ~/.bashrc
-		bash ~/.acme.sh/acme.sh --upgrade --auto-upgrade
-	fi
-         cat <<EOF >/etc/XrayR/ssl/crt.crt
-         $sslcrt
-       EOF     
+EOF    
 	
 	XrayR restart
 	green "Đã xong, reboot nếu k thành công！"
+	
 	exit 1
 }
 
