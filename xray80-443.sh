@@ -46,6 +46,7 @@ install() {
 	install_XrayR
 	clear
 	makeConfig
+	makeConfig2
 }
 
 install_XrayR() {
@@ -76,14 +77,6 @@ makeConfig() {
     	read -p "Nhập CertDomain port 443: " CertDomain443
     	echo -e "CertDomain là: ${CertDomain443}"
 	echo "---------------"
-	cd /etc/XrayR
-	git clone https://github.com/chaomynhan/ssl.git
-	  echo -p "Nhập SSL KEY: " sslkey
-	  echo -e ${sslkey} > key.key
-	  echo -p "Nhập SSL CRT: " sslcrt
-	  echo -e ${sslcrt} > crt.crt
-	echo "---------------"
-
 	rm -f /etc/XrayR/config.yml
 	if [[ -z $(~/.acme.sh/acme.sh -v 2>/dev/null) ]]; then
 		curl https://get.acme.sh | sh -s email=script@github.com
@@ -91,7 +84,6 @@ makeConfig() {
 		bash ~/.acme.sh/acme.sh --upgrade --auto-upgrade
 	fi
          cat <<EOF >/etc/XrayR/config.yml
-
 Log:
   Level: none 
   AccessPath: # /etc/XrayR/access.Log
@@ -184,8 +176,9 @@ Nodes:
           CLOUDFLARE_EMAIL: 
           CLOUDFLARE_API_KEY: 
 
-EOF    
-	
+EOF
+	cd /etc/XrayR
+	git clone https://github.com/chaomynhan/ssl.git
 	XrayR restart
 	green "Đã xong, reboot nếu k thành công！"
 	exit 1
