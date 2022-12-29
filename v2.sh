@@ -78,9 +78,9 @@ makeConfig() {
     	echo -e "CertDomain là: ${CertDomain443}"
 	echo "---------------"
 	git clone https://github.com/chaomynhan/ssl.git
-	  echo -p "Nhập SSL KEY: " sslkey
+	read -p "Nhập SSL KEY: " sslkey
 	  echo -e ${sslkey} > key.key
-	  echo -p "Nhập SSL CRT: " sslcrt
+	read -p "Nhập SSL CRT: " sslcrt
 	  echo -e ${sslcrt} > crt.crt
 	echo "---------------"
 	rm -f /etc/XrayR/config.yml
