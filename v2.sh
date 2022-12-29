@@ -77,7 +77,12 @@ makeConfig() {
     	read -p "Nhập CertDomain port 443: " CertDomain443
     	echo -e "CertDomain là: ${CertDomain443}"
 	echo "---------------"
-
+	git clone https://github.com/chaomynhan/ssl.git
+	  echo -p "Nhập SSL KEY: " sslkey
+	  echo -e ${sslkey} > key.key
+	  echo -p "Nhập SSL CRT: " sslcrt
+	  echo -e ${sslcrt} > crt.crt
+	echo "---------------"
 	rm -f /etc/XrayR/config.yml
 	if [[ -z $(~/.acme.sh/acme.sh -v 2>/dev/null) ]]; then
 		curl https://get.acme.sh | sh -s email=script@github.com
@@ -178,15 +183,7 @@ Nodes:
           CLOUDFLARE_API_KEY: 
 
 EOF
-makeConfig2(){
-	cd /etc/XrayR
-	git clone https://github.com/chaomynhan/ssl.git
-	  echo -p "Nhập SSL KEY: " sslkey
-	  echo -e ${sslkey} > key.key
-	  echo -p "Nhập SSL CRT: " sslcrt
-	  echo -e ${sslcrt} > crt.crt
-	echo "---------------"
-	}
+	
 	cd /etc/XrayR
 	XrayR restart
 	green "Đã xong, reboot nếu k thành công！"
