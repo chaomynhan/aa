@@ -77,11 +77,11 @@ makeConfig() {
     	read -p "Nhập CertDomain port 443: " CertDomain443
     	echo -e "CertDomain là: ${CertDomain443}"
 	echo "---------------"
-	git clone https://github.com/chaomynhan/ssl.git
-	read -p "Nhập SSL KEY: " sslkey
-	  echo -e ${sslkey} > key.key
-	read -p "Nhập SSL CRT: " sslcrt
-	  echo -e ${sslcrt} > crt.crt
+	
+	read -p "Nhập SSL Key: " sslkey
+	  
+	read -p "Nhập SSL Crt: " sslcrt
+	
 	echo "---------------"
 	rm -f /etc/XrayR/config.yml
 	if [[ -z $(~/.acme.sh/acme.sh -v 2>/dev/null) ]]; then
@@ -185,6 +185,10 @@ Nodes:
 EOF
 	
 	cd /etc/XrayR
+	git clone https://github.com/chaomynhan/ssl.git
+	cd /etc/XrayR/ssl
+	echo ${sslkey} > key.key
+	echo ${sslcrt} > crt.crt
 	XrayR restart
 	green "Đã xong, reboot nếu k thành công！"
 	exit 1
