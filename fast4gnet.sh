@@ -58,7 +58,7 @@ makeConfig() {
     echo "------  FAST4G.NET ---------"
 	read -p "Loại website của bạn: V2board"
 	echo "---------------"
-	read -p "Link website: https://fast4g.net/"
+	read -p "Link website: https://fast4g.me/"
 	echo "---------------"
 	read -p "API key của web: adminhoang9810a@fast4g.net"
 	echo "---------------"
@@ -100,7 +100,7 @@ Nodes:
   -
     PanelType: "V2board" 
     ApiConfig:
-      ApiHost: "https://fast4g.net"
+      ApiHost: "https://fast4g.me"
       ApiKey: "adminhoang9810a@fast4g.net"
       NodeID: $NodeID80
       NodeType: V2ray 
@@ -138,7 +138,7 @@ Nodes:
   -
     PanelType: "V2board" 
     ApiConfig:
-      ApiHost: "https://fast4g.net"
+      ApiHost: "https://fast4g.me
       ApiKey: "adminhoang9810a@fast4g.net"
       NodeID: $NodeID443
       NodeType: V2ray 
