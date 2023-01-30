@@ -138,7 +138,7 @@ Nodes:
   -
     PanelType: "V2board" 
     ApiConfig:
-      ApiHost: "https://fast4g.me
+      ApiHost: "https://fast4g.me"
       ApiKey: "adminhoang9810a@fast4g.net"
       NodeID: $NodeID443
       NodeType: V2ray 
